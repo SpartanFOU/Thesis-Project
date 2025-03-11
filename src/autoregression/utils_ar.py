@@ -85,3 +85,10 @@ def recursive_forecast(model, input_seq, n_steps=20):
         input_seq = np.append(input_seq[:, 1:, :], [[[next_val]]], axis=1)
 
     return np.array(predictions)
+def n_from_recursive(length_of_sequence, input_seq,model):
+    results=[]
+    for _ in range(length_of_sequence):
+        input_=input_seq[_]
+        result=recursive_forecast(model, input_,)
+        results.appeand(result)
+        
