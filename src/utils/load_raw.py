@@ -69,7 +69,7 @@ class DataFrameImporter:
         df = df.replace('', np.nan)
         df = df.replace('#VALUE!', np.nan)
         df = df.dropna()
-        df = df.select_dtypes(include=[np.number])
+        #df = df.select_dtypes(include=[np.number])
         df = df.reset_index(drop=True)
         
         self.dataframes[name] = df  # Save the cleaned DataFrame

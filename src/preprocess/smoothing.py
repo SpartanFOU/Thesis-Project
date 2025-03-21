@@ -160,9 +160,9 @@ class DataSmoothing:
             results['RTS']['Time'] = result["Time"]
 
         plt.figure(figsize=(10, 6))
-        plt.plot(self.data, label="Noisy Data", alpha=0.7)
+        plt.plot(self.data,'.', label="Noisy Data", alpha=0.7)
         for method, smoothed_data in smoothed_data_dict.items():
-            plt.plot(smoothed_data, label=method)
+            plt.plot(smoothed_data,'.', label=method,alpha=0.5)
         plt.legend()
         plt.title("Comparison of Smoothing Methods")
         plt.show()

@@ -41,7 +41,9 @@ def calculate_metrics(y_true, y_pred):
     # Symmetric Mean Absolute Percentage Error (SMAPE)
     smape = 100 * np.mean(2 * np.abs(y_pred - y_true) / (np.abs(y_true) + np.abs(y_pred)))
     
-    return mse, mae, rmse, r2, mape, smape
+    sae=np.sum(np.abs(y_pred - y_true))
+    
+    return mse, mae, rmse, r2, mape, smape,sae
 
 
 def plot_results(y_true, y_pred, title="Prediction vs Actual"):
@@ -100,49 +102,48 @@ def plot_residuals(y_true, y_pred):
     
 def evaluate_n_values(y_true, y_pred, n:int):
     """
-    Evaluate only the 20th predicted value versus the 20th actual value through the whole dataset.
+    Evaluate only the 20th predicted value versus the n actual value through the whole dataset.
     
-    This function evaluates the 20th value of the predicted and actual values, calculates the metrics,
-    and optionally plots both actual and predicted values of the 20th step along with the residuals.
+    This function evaluates the n value of the predicted and actual values, calculates the metrics,
+    and optionally plots both actual and predicted values of the n step along with the residuals.
 
     Parameters:
     y_true (array-like): The actual target values.
     y_pred (array-like): The predicted target values.
-    n (int): The number of the step (20th step) to evaluate.
+    n (int): The number of the step to evaluate.
 
     Returns:
-    pd.DataFrame: A DataFrame containing the evaluation metrics for the 20th value.
+    pd.DataFrame: A DataFrame containing the evaluation metrics for the n value.
     """
-    # Get the 20th value (last value) from both actual and predicted data
-    actual_20th = y_true
-    predicted_20th = y_pred
+    # Get the n_th value from both actual and predicted data
+
      
         
-    mse, mae, rmse, r2, mape, smape = calculate_metrics(actual_20th, predicted_20th)
+    mse, mae, rmse, r2, mape, smape,sae= calculate_metrics(y_true, y_pred)
     results = {
-        'Metric': ['MSE', 'MAE', 'RMSE', 'R2','MAPE','SMAPE'],
-        'Value': [mse, mae, rmse, r2, mape, smape]
+        'Metric': ['MSE', 'MAE', 'RMSE', 'R2','MAPE','SMAPE','SAE'],
+        'Value': [mse, mae, rmse, r2, mape, smape,sae]
     }
     # Convert the results dictionary to a DataFrame
     results_df = pd.DataFrame(results)
     print(results_df)
     #Plot 20th value
     plt.figure(figsize=(10, 5))
-    plt.plot(actual_20th, label='Actual 20th Value',  color='blue', linestyle='-', alpha=0.6)
-    plt.plot(predicted_20th, label='Predicted 20th Value', color='red', linestyle='--', alpha=0.6)
-    plt.title("Actual vs Predicted 20th Values")
-    plt.xlabel('Time Step')
+    plt.plot(y_true, label=f'Actual {n}_value',  color='blue', linestyle='-', alpha=0.6)
+    plt.plot(y_pred, label=f'Predicted {n}_value', color='red', linestyle='--', alpha=0.6)
+    plt.title(f"Actual vs Predicted {n}_value")
+    plt.xlabel('Time')
     plt.ylabel('Value')
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
     plt.show()
     
-    residuals = actual_20th - predicted_20th
+    residuals = y_true - y_pred
     plt.figure(figsize=(10, 5))
     plt.plot(residuals, label='Residuals (Error)', color='orange')
     plt.title("Error Development over Time")
-    plt.xlabel('Time Step')
+    plt.xlabel('Time ')
     plt.ylabel('Residual (Error)')
     plt.legend()
     plt.grid(True)
@@ -166,10 +167,10 @@ def evaluate_full_sequence(y_true, y_pred, t:int):
     pd.DataFrame: A DataFrame containing the evaluation metrics for the sequence at time `t`.
     """
     # Calculate overall error metrics (MSE, MAE, RMSE, R2) for the entire sequence
-    mse, mae, rmse, r2, mape, smape = calculate_metrics(y_true[t,:], y_pred[t,:])
+    mse, mae, rmse, r2, mape, smape,sae = calculate_metrics(y_true[t,:], y_pred[t,:])
     results = {
-        'Metric': ['MSE', 'MAE', 'RMSE', 'R2','MAPE','SMAPE'],
-        'Value': [mse, mae, rmse, r2, mape, smape]
+        'Metric': ['MSE', 'MAE', 'RMSE', 'R2','MAPE','SMAPE','SAE'],
+        'Value': [mse, mae, rmse, r2, mape, smape,sae]
     }
     # Convert the results dictionary to a DataFrame
     results_df = pd.DataFrame(results)

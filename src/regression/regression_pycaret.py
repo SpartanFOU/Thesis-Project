@@ -110,3 +110,8 @@ class RegressionPyCaret:
             self.results[model] = pred['prediction_label']
         self.results["Original"]=pred['target']   
         return self.results
+    def get_trained_models(self):
+        """
+        Returns the list of trained models.
+        """
+        return self.models
