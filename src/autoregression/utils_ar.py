@@ -232,6 +232,7 @@ def run_direct_lstm_experiment(
     - extra_params: dict of additional hyperparameters to log
     """
     input_shape=X_train.shape[1:]
+    print(input_shape)
     experiment_name = "Direct_LSTM_Experiments"
     run_name = f"Direct_{model_structure_name}_{lstm_units}_{datetime.now().strftime('%Y%m%d-%H%M%S')}"
     registered_model_name = f"Direct_LSTM_Model_{model_structure_name}"

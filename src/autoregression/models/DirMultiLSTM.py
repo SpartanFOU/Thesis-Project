@@ -81,3 +81,17 @@ def build_direct_model_avg(input_shape, output_steps, lstm_units=64):
     model.compile(optimizer='adam', loss='mse', metrics=['mse','mae'])
     
     return model
+
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, TimeDistributed
+def build_2_feat_model(input_shape, output_steps, lstm_units=64):
+    model = Sequential([
+    LSTM(lstm_units, return_sequences=True, input_shape=input_shape),  # 100 past steps, 2 features
+    LSTM(lstm_units//2, return_sequences=True),
+    TimeDistributed(Dense(output_steps))  # Output shape (20, 1)
+    ])
+
+    model.compile(optimizer='adam', loss='mse')
+    model.summary()
+    return model
