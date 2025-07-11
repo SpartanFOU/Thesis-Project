@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1743085943544
+current_stage: None
+description: null
+last_updated_timestamp: 1743085943544
+name: Direct_LSTM_Model_simple
+run_id: 54f1e78d0e9c4623bdaadfb9c6d6601a
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/54f1e78d0e9c4623bdaadfb9c6d6601a/artifacts/Direct_LSTM_Model_simple
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/54f1e78d0e9c4623bdaadfb9c6d6601a/artifacts/Direct_LSTM_Model_simple
+user_id: null
+version: 8

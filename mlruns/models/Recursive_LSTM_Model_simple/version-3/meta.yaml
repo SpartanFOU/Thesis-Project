@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744236381032
+current_stage: None
+description: null
+last_updated_timestamp: 1744236381032
+name: Recursive_LSTM_Model_simple
+run_id: 4946902ed80544aa9f3e1aed344f874e
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/736321545950391826/4946902ed80544aa9f3e1aed344f874e/artifacts/Recursive_LSTM_Model_simple
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/736321545950391826/4946902ed80544aa9f3e1aed344f874e/artifacts/Recursive_LSTM_Model_simple
+user_id: null
+version: 3

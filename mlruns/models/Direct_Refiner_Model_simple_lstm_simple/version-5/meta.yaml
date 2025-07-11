@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744222630968
+current_stage: None
+description: null
+last_updated_timestamp: 1744222630968
+name: Direct_Refiner_Model_simple_lstm_simple
+run_id: 023819cc73e04c8ebe8e3a88a791ff88
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/023819cc73e04c8ebe8e3a88a791ff88/artifacts/Direct_Refiner_Model_simple_lstm_simple
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/023819cc73e04c8ebe8e3a88a791ff88/artifacts/Direct_Refiner_Model_simple_lstm_simple
+user_id: null
+version: 5

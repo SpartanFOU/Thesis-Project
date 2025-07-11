@@ -128,7 +128,7 @@ def evaluate_n_values(y_true, y_pred, n:int):
     results_df = pd.DataFrame(results)
     print(results_df)
     #Plot 20th value
-    plt.figure(figsize=(10, 5))
+    #plt.figure(figsize=(10, 5))
     plt.plot(y_true, label=f'Actual {n}_value',  color='blue', linestyle='-', alpha=0.6)
     plt.plot(y_pred, label=f'Predicted {n}_value', color='red', linestyle='--', alpha=0.6)
     plt.title(f"Actual vs Predicted {n}_value")
@@ -137,17 +137,20 @@ def evaluate_n_values(y_true, y_pred, n:int):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+    plt.savefig("LR.pdf", bbox_inches='tight')
+    
     plt.show()
     
     residuals = y_true - y_pred
-    plt.figure(figsize=(10, 5))
+   # plt.figure(figsize=(10, 5))
     plt.plot(residuals, label='Residuals (Error)', color='orange')
     plt.title("Error Development over Time")
     plt.xlabel('Time ')
-    plt.ylabel('Residual (Error)')
+    plt.ylabel()
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+    plt.savefig("LR res.pdf", bbox_inches='tight')
     plt.show()
     return results_df
 
@@ -177,7 +180,7 @@ def evaluate_full_sequence(y_true, y_pred, t:int):
     print(results_df)
 
     # Optionally, plot actual vs predicted over the entire sequence
-    plt.figure(figsize=(10, 5))
+    #plt.figure(figsize=(10, 5))
     plt.plot(y_true[t,:], label='Actual Sequence', color='blue')
     plt.plot(y_pred[t,:], label='Predicted Sequence', color='red', linestyle='dashed')
     plt.title(f"Actual vs Predicted Sequence at t={t}")
@@ -186,11 +189,12 @@ def evaluate_full_sequence(y_true, y_pred, t:int):
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
+    plt.savefig("LR.pdf", bbox_inches='tight')
     plt.show()
 
     # Optionally, plot the error development over time
     residuals = y_true[t,:] - y_pred[t,:]
-    plt.figure(figsize=(10, 5))
+    #plt.figure(figsize=(10, 5))
     plt.plot(residuals, label='Residuals (Error)', color='orange')
     plt.title("Error Development over Time")
     plt.xlabel('Time Step')

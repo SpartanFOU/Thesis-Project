@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744218784382
+current_stage: None
+description: null
+last_updated_timestamp: 1744218784382
+name: Direct_LSTM_Model_average
+run_id: 7912c732414944ca97d91bccd3c77b3b
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/7912c732414944ca97d91bccd3c77b3b/artifacts/Direct_LSTM_Model_average
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/7912c732414944ca97d91bccd3c77b3b/artifacts/Direct_LSTM_Model_average
+user_id: null
+version: 8

@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744284130421
+current_stage: None
+description: null
+last_updated_timestamp: 1744284130421
+name: Direct_Refiner_Model_simple_cnn_simple
+run_id: df817130331c453f81828b34dda135ac
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/df817130331c453f81828b34dda135ac/artifacts/Direct_Refiner_Model_simple_cnn_simple
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/df817130331c453f81828b34dda135ac/artifacts/Direct_Refiner_Model_simple_cnn_simple
+user_id: null
+version: 7

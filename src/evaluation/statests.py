@@ -9,6 +9,9 @@ import seaborn as sns
 from scipy.stats import ks_1samp, norm
 from scipy.stats import skew
 from scipy import stats
+from statsmodels.stats.diagnostic import acorr_ljungbox
+import pandas as pd
+  
 
 
 def normality_test(x):
@@ -45,9 +48,13 @@ def normality_test(x):
         
     sns.histplot(x, kde=True)
     plt.title("Histogram + KDE")
+    plt.tight_layout()
+    plt.savefig("res distr.pdf", bbox_inches='tight')
     plt.show()
     stats.probplot(x, dist="norm", plot=plt)
     plt.title("Q-Q Plot")
+    plt.tight_layout()
+    plt.savefig("res qq.pdf", bbox_inches='tight')
     plt.show()
     
 def adf_test(data):
@@ -170,6 +177,158 @@ def breakpoints(data):
     # Print detected breakpoints
     print("Detected Breakpoints:", result)
 
+def cramer_von_mises_test(data):
+    """
+    Performs the Cramér-von Mises test for normality.
+    
+    Steps:
+    1. Runs the Cramér-von Mises test on the given dataset.
+    2. Prints the test statistic and p-value.
+    3. Provides an interpretation:
+       - If p-value < 0.05: The data is likely not normally distributed.
+       - Otherwise: The data is likely normally distributed.
+    
+    Args:
+        data (array-like): Time series data to be tested.
+    """
+    from scipy import stats
+    
+    # Run Cramér-von Mises test
+    result = stats.cramervonmises(data, 'norm')
+    
+    # Extract results
+    cvm_statistic = result.statistic
+    p_value = result.pvalue
+    
+    # Display the results
+    print("Cramér-von Mises Statistic:", cvm_statistic)
+    print("p-value:", p_value)
+    
+    # Explanation of results
+    print("\nInterpretation:")
+    if p_value < 0.05:
+        print(f"The p-value is {p_value:.4f}, which is less than 0.05.")
+        print("This means the data is likely not normally distributed.")
+    else:
+        print(f"The p-value is {p_value:.4f}, which is greater than 0.05.")
+        print("This means the data is likely normally distributed.")
+
+
+def ljung_box_test(data, lags=100, box_pierce=False):
+    """
+    Performs the Ljung-Box test for autocorrelation in time series.
+    
+    Steps:
+    1. Runs the Ljung-Box test on the given dataset.
+    2. Creates a DataFrame with test statistics and p-values for each lag.
+    3. Adds interpretation column indicating significance of autocorrelation.
+    4. Prints a summary of the results.
+    
+    Args:
+        data (array-like): Time series data to be tested.
+        lags (int, list, optional): Lags to use in the test. If None, uses min(10, len(data)//5).
+        box_pierce (bool, optional): If True, computes the Box-Pierce statistic instead.
+                                    Default is False (Ljung-Box).
+    
+    Returns:
+        pandas.DataFrame: DataFrame containing test results for all lags.
+    """
+  
+    
+    # Set default lags if not provided
+    if lags is None:
+        lags = min(10, len(data) // 5)
+    
+    # Run Ljung-Box test
+    result_df = acorr_ljungbox(data, lags=lags, boxpierce=box_pierce, return_df=True)
+    
+    # Rename columns for clarity
+    test_name = "Box-Pierce" if box_pierce else "Ljung-Box"
+    stat_col = 'bp_stat' if box_pierce else 'lb_stat'
+    pval_col = 'bp_pvalue' if box_pierce else 'lb_pvalue'
+    
+    result_df = result_df.rename(columns={
+        stat_col: f'{test_name}_Statistic',
+        pval_col: 'p_value'
+    })
+    
+    # Add lag column
+    result_df['lag'] = range(1, lags + 1)
+    
+    # Add interpretation column
+    result_df['significant_autocorrelation'] = result_df['p_value'] < 0.05
+    result_df['interpretation'] = np.where(
+        result_df['p_value'] < 0.05,
+        'Significant autocorrelation',
+        'No significant autocorrelation'
+    )
+    
+    # Reorder columns
+    cols = ['lag', f'{test_name}_Statistic', 'p_value', 'significant_autocorrelation', 'interpretation']
+    result_df = result_df[cols]
+    
+    # Print summary
+    print(f"{test_name} Test Results Summary:")
+    print(f"Number of observations: {len(data)}")
+    print(f"Number of lags tested: {lags}")
+    print(result_df)
+    sig_lags = result_df[result_df['significant_autocorrelation']]['lag'].tolist()
+    if len(sig_lags) > 0:
+        print(f"Significant autocorrelation detected at lags: {sig_lags}")
+        print("Overall: The time series shows evidence of autocorrelation.")
+        print("This suggests the series is not independent over time.")
+    else:
+        print("No significant autocorrelation detected at any tested lag.")
+        print("Overall: The time series appears to be independent over time.")
+    
+    return result_df
+
+def arch_test(data, lags=100):
+    """
+    Performs the ARCH (Autoregressive Conditional Heteroskedasticity) test 
+    to check for heteroskedasticity in time series.
+    
+    Steps:
+    1. Runs the ARCH test on the given dataset.
+    2. Prints the Lagrange multiplier test statistic and p-value.
+    3. Provides an interpretation:
+       - If p-value < 0.05: The series likely has ARCH effects (heteroskedasticity).
+       - Otherwise: The series likely does not have ARCH effects.
+    
+    Args:
+        data (array-like): Time series data to be tested.
+        lags (int, optional): Number of lags to include in the test. Default is 12.
+    """
+    from statsmodels.stats.diagnostic import het_arch
+    
+    # Run ARCH test
+    result = het_arch(data, nlags=lags)
+    
+    # Extract results
+    lm_statistic = result[0]
+    p_value = result[1]
+    f_statistic = result[2]
+    f_p_value = result[3]
+    
+    # Display the results
+    print("ARCH Test Results:")
+    print(f"Lags used: {lags}")
+    print(f"Lagrange Multiplier Statistic: {lm_statistic:.4f}")
+    print(f"LM p-value: {p_value:.4f}")
+    print(f"F-statistic: {f_statistic:.4f}")
+    print(f"F p-value: {f_p_value:.4f}")
+    
+    # Explanation of results
+    print("\nInterpretation:")
+    if p_value < 0.05:
+        print(f"The LM p-value is {p_value:.4f}, which is less than 0.05.")
+        print("This suggests the presence of ARCH effects (heteroskedasticity) in the series.")
+        print("This means the volatility of the series changes over time in a predictable manner.")
+    else:
+        print(f"The LM p-value is {p_value:.4f}, which is greater than 0.05.")
+        print("This suggests no significant ARCH effects (heteroskedasticity) in the series.")
+        print("This means the volatility of the series appears to be constant over time.")
+
 def test_autoregression(data):
     """
     Runs multiple statistical tests to analyze a time series before autoregression modeling.
@@ -185,6 +344,9 @@ def test_autoregression(data):
     """
     
     normality_test(data)
+    cramer_von_mises_test(data)
+    ljung_box_test(data)
+    arch_test(data)
     adf_test(data)
     acf_test(data)
     cumsum_plot(data)

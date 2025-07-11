@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744225862053
+current_stage: None
+description: ''
+last_updated_timestamp: 1744225862053
+name: simple new data
+run_id: 3f7d44b5d4ba448bab9b740d0b85966a
+run_link: ''
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/3f7d44b5d4ba448bab9b740d0b85966a/artifacts/keras-model
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/3f7d44b5d4ba448bab9b740d0b85966a/artifacts/keras-model
+user_id: null
+version: 1

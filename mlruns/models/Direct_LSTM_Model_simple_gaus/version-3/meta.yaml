@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1743084568088
+current_stage: None
+description: null
+last_updated_timestamp: 1743084568088
+name: Direct_LSTM_Model_simple_gaus
+run_id: 1c4128906a134cf18df5ede115a84a93
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/1c4128906a134cf18df5ede115a84a93/artifacts/Direct_LSTM_Model_simple_gaus
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/1c4128906a134cf18df5ede115a84a93/artifacts/Direct_LSTM_Model_simple_gaus
+user_id: null
+version: 3

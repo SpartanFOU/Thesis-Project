@@ -6,8 +6,7 @@ def build_direct_lstm_model_simple(input_shape, output_steps=20, lstm_units=64):
     Base Direct LSTM Model: Predicts full future sequence in one step.
 
     Parameters:
-        input_seq_len (int): Length of input sequence (e.g., 100)
-        input_dim (int): Number of features per timestep (e.g., 1)
+        input_shape(shape): shape of input (100,1)
         output_steps (int): Number of future values to predict (e.g., 20)
         lstm_units (int): Number of LSTM units (e.g., 64)
 
@@ -67,12 +66,8 @@ def build_direct_model_avg(input_shape, output_steps, lstm_units=64):
     x = Dropout(0.2)(x)
     
     # Second LSTM layer
-    x = Bidirectional(LSTM(lstm_units))(x)
+    x = LSTM(lstm_units)(x)
     x = Dropout(0.2)(x)
-    
-    # Dense layers
-    x = Dense(lstm_units, activation='relu')(x)
-    x = Dropout(0.1)(x)
     
     # Output layer
     outputs = Dense(output_steps)(x)

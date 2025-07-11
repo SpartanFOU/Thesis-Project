@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/df817130331c453f81828b34dda135ac/artifacts
+end_time: 1744284130774
+entry_point_name: ''
+experiment_id: '618710340889612266'
+lifecycle_stage: active
+run_id: df817130331c453f81828b34dda135ac
+run_name: Direct_Refinersimple_cnn_simple_32_20250410-132049
+run_uuid: df817130331c453f81828b34dda135ac
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1744284049727
+status: 3
+tags: []
+user_id: zaizzhaim

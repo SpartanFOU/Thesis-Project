@@ -1,0 +1,25 @@
+artifact_path: Direct_Refiner_Model_simple_cnn_simple
+flavors:
+  keras:
+    data: data
+    keras_backend: tensorflow
+    keras_version: 3.9.0
+    save_exported_model: false
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.keras
+    python_version: 3.11.0
+is_signature_from_type_hint: false
+mlflow_version: 2.20.4
+model_size_bytes: 38083
+model_uuid: b7d1dea54f294371a59c8724b309bcc7
+run_id: b614fde669724a5faf52d9615ea453ef
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1, 20]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-09 18:18:08.548215'

@@ -1,0 +1,26 @@
+artifact_path: Recursive_LSTM_Model_simple
+flavors:
+  keras:
+    data: data
+    keras_backend: tensorflow
+    keras_version: 3.9.0
+    save_exported_model: false
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.keras
+    python_version: 3.11.0
+is_signature_from_type_hint: false
+mlflow_version: 2.20.4
+model_size_bytes: 229963
+model_uuid: 875eb8b7055d4b8194571916397323b9
+run_id: 4946902ed80544aa9f3e1aed344f874e
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1, 100,
+    1]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-09 22:05:50.362371'

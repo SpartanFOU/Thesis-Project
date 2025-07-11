@@ -1,0 +1,25 @@
+artifact_path: Direct_Refiner_Model_simple_lstm_avg
+flavors:
+  keras:
+    data: data
+    keras_backend: tensorflow
+    keras_version: 3.9.0
+    save_exported_model: false
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.keras
+    python_version: 3.11.0
+is_signature_from_type_hint: false
+mlflow_version: 2.20.4
+model_size_bytes: 440566
+model_uuid: 61a62cd5a60740c284789555192ea1f9
+run_id: c3d154c4fc2442d297ba1b6990aca8c6
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1, 20]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-09 18:23:33.845540'

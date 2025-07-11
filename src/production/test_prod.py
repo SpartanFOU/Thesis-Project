@@ -119,7 +119,7 @@ def test_whole(lstm_model, real_values, input_window,prediction_window,update_st
 
             # Monte Carlo Correction
             mc_samples = predicted_value + np.random.choice(residuals, size=mc_simulations)
-            lower_bound, upper_bound = np.percentile(mc_samples, 0), np.percentile(mc_samples, 100)
+            lower_bound, upper_bound = np.percentile(mc_samples, 0.01), np.percentile(mc_samples, 99.9)
 
             # Store results for visualization
             predicted_parts.append(step + i+20)
@@ -132,7 +132,7 @@ def test_whole(lstm_model, real_values, input_window,prediction_window,update_st
     print("✅ Production phase complete. Ready for visualization.")
 
     # 🔵 3. PLOTTING RESULTS
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(15, 9))
 
     # Plot real values
     plt.plot(range(len(real_values)), real_values, label="Real Values", color="blue", alpha=0.6)
@@ -144,16 +144,19 @@ def test_whole(lstm_model, real_values, input_window,prediction_window,update_st
     plt.fill_between(predicted_parts, lower_bounds, upper_bounds, color="orange", alpha=0.3, label="MC Confidence Region")
 
     # Plot tolerance limits
-    plt.axhline(tolerance_lower, color="black", linestyle="dashed", label="Tolerance Lower Limit")
-    plt.axhline(tolerance_upper, color="black", linestyle="dashed", label="Tolerance Upper Limit")
+    plt.axhline(tolerance_lower, color="black", linestyle="dashed", label="Tolerance Lower Limit",alpha=0.5)
+    plt.axhline(tolerance_upper, color="black", linestyle="dashed", label="Tolerance Upper Limit",alpha=0.5)
     alarm_df=pd.DataFrame(alarm_log)
-    alarm_true_list=alarm_df[alarm_df[1]][0].values
-    for i in alarm_true_list:
-        plt.axvline(i,color='red',linestyle="dashed")
+    #alarm_true_list=alarm_df[alarm_df[1]][0].values
+    #for i in alarm_true_list:
+    #    plt.axvline(i,color='red',linestyle="dashed")
     plt.xlabel("Part Number")
     plt.ylabel("Measurement Value")
     plt.title("Predictive Maintenance - Real vs Predicted Values with MC Confidence Region")
-    plt.legend()
+    plt.legend(loc='upper left',frameon=True)
+    plt.tight_layout()
+    plt.savefig('test with confidence region.pdf',bbox_inches='tight')
     plt.grid()
     plt.show()
+    
     return alarm_df

@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744222294732
+current_stage: None
+description: null
+last_updated_timestamp: 1744222294732
+name: Direct_LSTM_Model_advanced
+run_id: f9f4da99d2004732ad518a17fb241a17
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/f9f4da99d2004732ad518a17fb241a17/artifacts/Direct_LSTM_Model_advanced
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/f9f4da99d2004732ad518a17fb241a17/artifacts/Direct_LSTM_Model_advanced
+user_id: null
+version: 5

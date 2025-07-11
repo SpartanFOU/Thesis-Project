@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/240301900458054784/52f8243f5b0747e0aaf0222e8777de3d/artifacts
+end_time: 1742982228405
+entry_point_name: ''
+experiment_id: '240301900458054784'
+lifecycle_stage: active
+run_id: 52f8243f5b0747e0aaf0222e8777de3d
+run_name: Direct_simple_2 feat_64_20250326-104341
+run_uuid: 52f8243f5b0747e0aaf0222e8777de3d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742982221637
+status: 4
+tags: []
+user_id: zaizzhaim

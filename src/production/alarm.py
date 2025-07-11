@@ -28,10 +28,11 @@ def alarm(mc_samples, part_number,tolerance_lower,tolerance_upper,near_pct,off_p
     """
     # Count occurrences in risk regions
     lower_low_limit = tolerance_lower
-    near_low_limit = tolerance_lower*1.1
-    near_upper_limit = tolerance_upper*0.9
-    upper_high_limit = tolerance_upper 
 
+    upper_high_limit = tolerance_upper 
+    tolerance=upper_high_limit-lower_low_limit
+    near_low_limit = tolerance_lower+0.05*tolerance
+    near_upper_limit = tolerance_upper-0.05*tolerance
     risk_counts = {
         "Below Low Limit": np.sum(mc_samples < lower_low_limit),
         "Near Low Limit": np.sum((mc_samples >= lower_low_limit) & (mc_samples < near_low_limit)),

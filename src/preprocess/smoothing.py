@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.ndimage import gaussian_filter
+from scipy.ndimage import gaussian_filter1d
 from filterpy.kalman import KalmanFilter
 import pywt  # For Wavelet Transform
 from scipy.stats import pearsonr
@@ -32,7 +32,7 @@ class DataSmoothing:
     def gaussian_filter_smooth(self, sigma=1):
         """Apply Gaussian Filter smoothing."""
         start_time = time.perf_counter()
-        result = gaussian_filter(self.data, sigma)
+        result = gaussian_filter1d(self.data, sigma)
         end_time = time.perf_counter()
         return {"Smoothed Data": result, "Time": end_time - start_time}
 
@@ -77,6 +77,79 @@ class DataSmoothing:
         end_time = time.perf_counter()
         return {"Smoothed Data": filtered_state, "Time": end_time - start_time}
 
+    def rts_smoother(self,observations):
+        """
+            Kalman Filter + RTS Smoother for n-dimensional linear Gaussian systems.
+
+            Parameters:
+                observations (ndarray): shape (T, m), observations over time
+                F (ndarray): shape (n, n), state transition matrix
+                H (ndarray): shape (m, n), observation matrix
+                Q (ndarray): shape (n, n), process noise covariance
+                R (ndarray): shape (m, m), measurement noise covariance
+                P_initial (ndarray): shape (n, n), initial error covariance
+                x_initial (ndarray): shape (n, 1), initial state estimate
+
+            Returns:
+                dict with smoothed states, filtered states, and computation time
+        """
+        F = np.array([[1.0]])   # State transition
+        H = np.array([[1.0]])   # Observation model
+        Q = np.array([[0.01]])  # Process noise
+        R = np.array([[1.0]])   # Measurement noise
+        P_initial = np.array([[1000.0]])  # Initial covariance
+        x_initial = np.array([[0.0]])     # Initial state
+        start_time = time.perf_counter()
+        T = observations.shape[0]
+        n = F.shape[0]
+
+            # Initialize state
+        x = np.zeros((n, 1)) if x_initial is None else x_initial.reshape(n, 1)
+        P = P_initial.copy()
+
+            # Allocate arrays
+        x_filtered = np.zeros((T, n, 1))
+        P_filtered = np.zeros((T, n, n))
+        x_pred = np.zeros((T, n, 1))
+        P_pred = np.zeros((T, n, n))
+
+            # === FORWARD PASS ===
+        for t in range(T):
+                # Predict
+                x_prior = F @ x
+                P_prior = F @ P @ F.T + Q
+
+                x_pred[t] = x_prior
+                P_pred[t] = P_prior
+
+                # Update
+                y = observations[t].reshape(-1, 1) - H @ x_prior
+                S = H @ P_prior @ H.T + R
+                K = P_prior @ H.T @ np.linalg.inv(S)
+
+                x = x_prior + K @ y
+                P = (np.eye(n) - K @ H) @ P_prior
+
+                x_filtered[t] = x
+                P_filtered[t] = P
+
+            # === BACKWARD PASS (RTS Smoothing) ===
+        x_smoothed = x_filtered.copy()
+        P_smoothed = P_filtered.copy()
+
+        for t in range(T - 2, -1, -1):
+                C = P_filtered[t] @ F.T @ np.linalg.inv(P_pred[t + 1])
+                x_smoothed[t] += C @ (x_smoothed[t + 1] - x_pred[t + 1])
+                P_smoothed[t] += C @ (P_smoothed[t + 1] - P_pred[t + 1]) @ C.T
+
+        end_time = time.perf_counter()
+
+        return {
+                "Smoothed Data": x_smoothed.squeeze(),
+                "Filtered Data": x_filtered.squeeze(),
+                "Time": end_time - start_time
+        }
+
     def calculate_correlation(self, smoothed_data):
         """Calculate Pearson correlation between noisy and smoothed data."""
         return pearsonr(self.data[:len(smoothed_data)], smoothed_data)[0]
@@ -115,19 +188,32 @@ class DataSmoothing:
             #"Mean Absolute Deviation (MAD)": mad,
             #"Maximum Deviation": max_dev
         }
-
+    def calculate_entropy(self,smoothed_data,bins=None):
+        """Calculates informational entropy """
+        from scipy.stats import entropy
+        if bins is None:
+        # Sturges' rule for bin count
+            bins = int(np.ceil(np.log2(len(self.data)) + 1))
+        hist_or, _ = np.histogram(self.data, bins=bins, density=True)
+        hist_or = hist_or[hist_or > 0]  # Remove zero probabilities
+        hist_sm, _ = np.histogram(smoothed_data, bins=bins, density=True)
+        hist_sm = hist_sm[hist_sm > 0]
+        return {"Original entropy":entropy(hist_or),
+                "Smoothed entropy":entropy(hist_sm)}
+        
     def run_tests(self, smoothed_data):
         """Run Correlation, MSE, Autocorrelation, and Deviation analysis."""
         #correlation = self.calculate_correlation(smoothed_data)
         mse = self.calculate_mse(smoothed_data)
         autocorrelation_results = self.calculate_autocorrelation(smoothed_data)
         deviation_results = self.calculate_deviation(smoothed_data)
-
+        entropy_results=self.calculate_entropy(smoothed_data)
         return {
             #"Correlation": correlation,
             "MSE": mse,
             **autocorrelation_results,
-            **deviation_results
+            **deviation_results,
+            **entropy_results
         }
 
     def compare_smoothing_methods(self):
@@ -154,17 +240,20 @@ class DataSmoothing:
             results['Wavelet']['Time'] = result["Time"]
 
         if 'RTS' in self.methods:
-            result = self.kalman_filter_rts_smooth(self.data)
+            result = self.rts_smoother(self.data)
             smoothed_data_dict['RTS'] = result["Smoothed Data"]
             results['RTS'] = self.run_tests(result["Smoothed Data"])
             results['RTS']['Time'] = result["Time"]
 
-        plt.figure(figsize=(10, 6))
+
         plt.plot(self.data,'.', label="Noisy Data", alpha=0.7)
         for method, smoothed_data in smoothed_data_dict.items():
             plt.plot(smoothed_data,'.', label=method,alpha=0.5)
         plt.legend()
         plt.title("Comparison of Smoothing Methods")
+        
+        plt.savefig(f"png//smoothed_wave.pdf",bbox_inches='tight')
+        
         plt.show()
 
         return results
@@ -185,7 +274,7 @@ class DataSmoothing:
         if 'Wavelet' in self.methods:
             smoothed_data_dict['Wavelet Transform'] = self.wavelet_transform_smooth()["Smoothed Data"]
         if 'RTS' in self.methods:
-            smoothed_data_dict['RTS Smoothing'] = self.kalman_filter_rts_smooth(self.data)["Smoothed Data"]
+            smoothed_data_dict['RTS Smoothing'] = self.rts_smoother(self.data)["Smoothed Data"]
 
         return smoothed_data_dict
 

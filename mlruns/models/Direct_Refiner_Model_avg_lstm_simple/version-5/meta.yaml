@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1744223201098
+current_stage: None
+description: null
+last_updated_timestamp: 1744223201098
+name: Direct_Refiner_Model_avg_lstm_simple
+run_id: d5c14e695a974fc09e73c7a4b08f2df9
+run_link: null
+source: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/d5c14e695a974fc09e73c7a4b08f2df9/artifacts/Direct_Refiner_Model_avg_lstm_simple
+status: READY
+status_message: null
+storage_location: file:///C:/SVN/Python%20projects/Thesis%20Project/mlruns/618710340889612266/d5c14e695a974fc09e73c7a4b08f2df9/artifacts/Direct_Refiner_Model_avg_lstm_simple
+user_id: null
+version: 5
