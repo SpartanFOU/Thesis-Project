@@ -146,7 +146,7 @@ def evaluate_n_values(y_true, y_pred, n:int):
     plt.plot(residuals, label='Residuals (Error)', color='orange')
     plt.title("Error Development over Time")
     plt.xlabel('Time ')
-    plt.ylabel()
+    plt.ylabel('Value')
     plt.legend()
     plt.grid(True)
     plt.tight_layout()

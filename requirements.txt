@@ -1,4 +1,5 @@
 absl-py==2.1.0
+aggdraw==1.3.19
 alembic==1.15.1
 annotated-types==0.7.0
 asttokens==3.0.0
@@ -122,6 +123,7 @@ patsy==1.0.1
 phik==0.12.4
 pickleshare==0.7.5
 pillow==11.1.0
+pipreqs==0.5.0
 platformdirs==4.3.6
 plotly==5.24.1
 plotly-resampler==0.10.0
@@ -182,7 +184,7 @@ tensorflow-io-gcs-filesystem==0.31.0
 tensorflow_intel==2.18.0
 termcolor==2.5.0
 threadpoolctl==3.5.0
--e git+https://github.com/SpartanFOU/Thesis-Project.git@686863b359ad34dc12a30c9341c003f42fd03c74#egg=timeseries_forecasting_project
+-e git+https://github.com/SpartanFOU/Thesis-Project.git@319273659f96d39cabd9dca3b0e40b766605755f#egg=timeseries_forecasting_project
 tinycss2==1.4.0
 tornado==6.4.2
 tqdm==4.67.1
@@ -193,6 +195,7 @@ typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
 visions==0.7.6
+visualkeras==0.1.4
 waitress==3.0.2
 wcwidth==0.2.13
 webencodings==0.5.1
